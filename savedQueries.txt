@@ -1,0 +1,48 @@
+OPTIONAL MATCH (n)-[r]-(m) RETURN n,r,m LIMIT 2000
+
+
+OPTIONAL MATCH (n:Category)-[r]-(m:Category) RETURN n,r,m LIMIT 2000
+
+
+MATCH (c:Category)--(p:Product)
+RETURN c.id, count(p)
+
+MATCH (c:Category)--(p:Product)
+RETURN c.id,  count(p) as productCount
+ORDER BY productCount DESC
+
+OPTIONAL MATCH (c:Category)-[r]-(p:Product)
+WHERE c.id =~ '(?i).*'+$name+'.*' OR p.name=~ '(?i).*'+$name+'.*' OR p.description=~ '(?i).*'+$name+'.*'
+RETURN c,r,p
+
+
+MATCH (c:Category)-[r]-(p:Product)
+WHERE p.rating > 4
+RETURN c.id,  count(p) as productCount
+ORDER BY productCount DESC
+
+
+MATCH (c:Category)--(p:Product)
+RETURN p.rating as ratings, count(*)
+ORDER BY ratings DESC
+
+
+
+BLOOM - Saved Cyphers
+=====================
+
+***** Search product or categories for $name
+
+OPTIONAL MATCH (c:Category)-[r]-(p:Product)
+WHERE c.id =~ '(?i).*'+$name+'.*' OR p.name=~ '(?i).*'+$name+'.*' OR p.description=~ '(?i).*'+$name+'.*'
+RETURN c,r,p
+
+***** Show the best rated products
+
+MATCH (c:Category)--(p:Product)
+RETURN p.rating as ratings, count(*)
+ORDER BY ratings DESC
+
+MATCH (c:Category)-[r]-(p:Product)
+WHERE p.ratings >= 4
+RETURN c,r,p
