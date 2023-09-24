@@ -46,3 +46,38 @@ ORDER BY ratings DESC
 MATCH (c:Category)-[r]-(p:Product)
 WHERE p.ratings >= 4
 RETURN c,r,p
+
+
+*** CLEAN UP MODEL
+
+OPTIONAL MATCH (n:Territory)-[r]-(m:Region)
+OPTIONAL MATCH (n:Territory)-[s]-(o:Supplier)
+RETURN n,r,s,m,o
+
+
+OPTIONAL MATCH (n:Territory)-[r]-(m:Region)
+OPTIONAL MATCH (n:Territory)-[s]-(o:Supplier)
+DETACH DELETE n, m, o
+
+
+OPTIONAL MATCH (n:Shipper)-[r]-(o:Order)
+DETACH DELETE n, o
+
+MATCH (n:Customer)
+DETACH DELETE n
+
+MATCH (n:Employee)
+DETACH DELETE n
+
+MATCH (n:Supplier)
+DETACH DELETE n
+
+******* For graph visualization
+
+OPTIONAL MATCH (c:Category)-[r]-(sc:Category)-[s]-(p:Product)
+RETURN c,sc,r,count(p) as productCount
+ORDER BY productCount DESC
+
+
+MATCH (c:Category{id: "Winter Wear"})-[r]-(p:Product)
+RETURN c,r,p LIMIT 2000
