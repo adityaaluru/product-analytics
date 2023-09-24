@@ -47,6 +47,17 @@ MATCH (c:Category)-[r]-(p:Product)
 WHERE p.ratings >= 4
 RETURN c,r,p
 
+MATCH (c:Category)-[r:PART_OF]-+(c:Category)<-[s:BELONGS_TO]-(p:Product WHERE p.rating > 4)
+RETURN c,p,count(p)
+
+MATCH (mc:Category)-[r:PART_OF]-+(c:Category)
+CALL {
+    WITH c
+    MATCH (c)<-[s:BELONGS_TO]-(p:Product)
+    RETURN p,s
+    LIMIT 10
+}
+RETURN mc,c,r,p,s
 
 *** CLEAN UP MODEL
 
