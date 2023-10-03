@@ -92,3 +92,29 @@ ORDER BY productCount DESC
 
 MATCH (c:Category{id: "Winter Wear"})-[r]-(p:Product)
 RETURN c,r,p LIMIT 2000
+
+
+******* For saving embeddings
+
+CALL db.index.vector.createNodeIndex('openai_vectors', 'Product', 'openai_vector', 1536, 'cosine')
+SHOW INDEXES YIELD name, type, labelsOrTypes, properties, options WHERE type = 'VECTOR'
+
+MATCH (n:Product {id: $id})
+CALL db.create.setVectorProperty(n, 'propertyKey', $vector)
+YIELD node RETURN node;
+
+MATCH (p:Product {id: 'TKPFCZ9EA7H5FYZH'})
+CALL db.create.setVectorProperty(p, 'openai_vector', [0.004228630103170872,0.024979250505566597])
+YIELD p RETURN p;
+
+MATCH (p:Product)
+WHERE p.openai_vector IS NOT NULL
+RETURN count(p) as productsWithVector
+
+SHOW PROCEDURES YIELD name, signature
+WHERE name = 'apoc.ml.query'
+RETURN signature
+
+MATCH (p:Product)
+WHERE p.openai_vector IS NOT NULL
+RETURN count(p) as productsWithVectors

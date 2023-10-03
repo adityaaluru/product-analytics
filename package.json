@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "n-readlines": "^1.0.1",
     "neo4j-driver": "^5.12.0"
   },
   "type": "module"
