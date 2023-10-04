@@ -1,4 +1,3 @@
-import fs from "fs/promises";
 import neo4j from "neo4j-driver";
 import nReadlines from "n-readlines";
 

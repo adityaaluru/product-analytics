@@ -10,8 +10,10 @@ This repo contains code to perform the following:
 
 `node index-vector`
 
+3. API to perform kNN search for products (and get their categories)
+
+`node semantic-search "What can I buy as gifts for my boys"`
 
 # TO BE DONE
-3. API to perform kNN search for products (and get their categories)
 4. API to find the best category for a given product title, description
 5. API to re-catalog the product set, based on a new category tree structure provided by the user
