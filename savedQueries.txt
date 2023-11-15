@@ -70,6 +70,19 @@ OPTIONAL MATCH (n:Territory)-[r]-(m:Region)
 OPTIONAL MATCH (n:Territory)-[s]-(o:Supplier)
 DETACH DELETE n, m, o
 
+OPTIONAL MATCH (c:Collection) WHERE c.id=~ '(?i).*Birthday.*'
+DETACH DELETE c
+
+"Birthday"
+"A list of all products than can be gifted for a birthday"
+
+OPTIONAL MATCH (c:Collection {id: 'Birthday'})
+RETURN c
+
+OPTIONAL MATCH (p:Product) WHERE p.openai_vector IS NULL
+RETURN p
+
+
 
 OPTIONAL MATCH (n:Shipper)-[r]-(o:Order)
 DETACH DELETE n, o
@@ -118,3 +131,7 @@ RETURN signature
 MATCH (p:Product)
 WHERE p.openai_vector IS NOT NULL
 RETURN count(p) as productsWithVectors
+
+
+MATCH (c:Collection{id: 'Birthday'})-[p:PART_OF]-+(cc:Collection)
+RETURN c, p, cc
